@@ -1,0 +1,34 @@
+{
+  "name": "tuntuntutu-cli",
+  "version": "1.0.0",
+  "description": "a cli for page template",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuntuntutu/tuntuntutu-cli.git"
+  },
+  "author": "tuntuntutu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tuntuntutu/tuntuntutu-cli/issues"
+  },
+  "homepage": "https://github.com/tuntuntutu/tuntuntutu-cli#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.18.0",
+    "download-git-repo": "^1.1.0",
+    "fs-extra": "^7.0.0",
+    "glob": "^7.1.3",
+    "handlebars": "^4.0.12",
+    "inquirer": "^6.2.0",
+    "log-symbols": "^2.2.0",
+    "metalsmith": "^2.3.0",
+    "ora": "^3.0.0",
+    "path": "^0.12.7",
+    "rimraf": "^2.6.2"
+  }
+}
