@@ -61,7 +61,8 @@ function go() {
       return {
         metadata: {},
         pageName,
-        target
+        target,
+        projectRoot
       }
     })
   }).then(context => {
@@ -100,9 +101,9 @@ function go() {
     })
   })
     .then(context => {
-      const { pageName } = context.metadata
+      const { projectRoot } = context
 
-      return generator(context.metadata, context.target, path.join(path.parse(context.target).dir, pageName))
+      return generator(context.metadata, context.target, path.join(path.parse(context.target).dir, projectRoot))
     })
     .then(() => {
       console.log(logSymbols.success, chalk.green('创建成功:)'))
