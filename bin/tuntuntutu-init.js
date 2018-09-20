@@ -8,6 +8,7 @@ const download = require('../lib/download')
 const generator = require('../lib/generator')
 const logSymbols = require('log-symbols')
 const chalk = require('chalk')
+const rm = require('rimraf').sync
 
 
 program.usage('<project-name>').parse(process.argv)
@@ -53,62 +54,92 @@ if (list.length) {
 next && go()
 
 function go() {
-  next.then(projectRoot => {
-    if (projectRoot !== '.') {
-      fs.mkdirSync(projectRoot)
-    }
-    return download().then((target) => {
-      return {
-        metadata: {},
-        pageName,
-        target,
-        projectRoot
+  next
+    .then(projectRoot => {
+      if (projectRoot !== '.') {
+        fs.mkdirSync(projectRoot)
       }
-    })
-  }).then(context => {
-    return inquirer.prompt([
-      {
-        name: 'pageName',
-        message: '页面名称',
-        default: context.pageName
-      }, {
-        type: 'list',
-        name: 'type',
-        message: '请选择页面类型',
-        choices: [
-          'list',
-          'form'
-        ]
-      }, {
-        name: 'description',
-        message: '页面简述'
-      }, {
-        name: 'prd',
-        message: 'prd地址',
-        default: ''
-      }, {
-        name: 'remark',
-        message: '备注',
-        default: ''
-      }
-    ]).then(answers => {
-      return {
-        ...context,
-        metadata: {
-          ...answers
+      return download().then((target) => {
+        return {
+          metadata: {},
+          pageName,
+          target,
+          projectRoot
         }
-      }
+      })
     })
-  })
     .then(context => {
-      const { projectRoot } = context
+      return inquirer.prompt([
+        {
+          type: 'list',
+          name: 'pageType',
+          message: '请选择类型（module包含路由和多个页面）',
+          choices: [
+            'module',
+            'page',
+          ]
+        }
+      ]).then(answers => {
+        return {
+          ...context,
+          pageType: answers.pageType
+        }
+      })
+    })
+    .then(context => {
+      const {pageType} = context;
+      const prompt = pageType === 'module' ? [
+        {
+          type: 'list',
+          name: 'type',
+          message: '请选择模块类型',
+          choices: ['list', 'list-modal', 'normal']
+        },
+        {
+          name: 'pageName',
+          message: '模板名称',
+          default: context.pageName
+        }, {
+          name: 'description',
+          message: '页面简述'
+        }, {
+          name: 'prd',
+          message: 'prd地址',
+          default: ''
+        }, {
+          name: 'remark',
+          message: '备注',
+          default: ''
+        }
+      ] : [
+        {
+          type: 'list',
+          name: 'type',
+          message: '请选择页面类型',
+          choices: ['normal', 'form']
+        },
+      ]
+
+      return inquirer.prompt(prompt).then(answers => {
+        return {
+          ...context,
+          metadata: {
+            ...answers,
+            type: pageType + '-' + answers.type,
+          }
+        }
+      })
+    })
+    .then(context => {
+      const {projectRoot} = context
 
       return generator(context.metadata, context.target, path.join(path.parse(context.target).dir, projectRoot))
     })
     .then(() => {
       console.log(logSymbols.success, chalk.green('创建成功:)'))
-    }).catch(err => {
-    console.log('失败： ' + err.message)
-  })
+    })
+    .catch(err => {
+      console.log('失败： ' + err.message)
+    })
 }
 
