@@ -1,6 +1,6 @@
 {
   "name": "tuntuntutu",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "a cli for page template",
   "bin": {
     "tuntuntutu": "./bin/tuntuntutu.js"
