@@ -111,7 +111,7 @@ function go(rootName, pageName) {
               choices: ['list', 'list-modal', 'normal', '其他']
             },
             {
-              name: 'pageName',
+              name: 'pageNameZN',
               message: '模块中文简称',
             }, {
               name: 'description',
@@ -158,6 +158,7 @@ function go(rootName, pageName) {
           pageName: context.pageName,
           metadata: {
             ...answers,
+            pageName: context.pageName,
             upperPageName: upperFirstLetter(context.pageName),
             type: tplType === 'other' ? tplName : tplType + '-' + tplName,
           }
