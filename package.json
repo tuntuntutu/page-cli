@@ -1,9 +1,9 @@
 {
   "name": "tuntuntutu-page",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a cli for page template",
   "bin": {
-    "ttp": "./bin/tuntuntutu.js"
+    "ttp": "./bin/ttp.js"
   },
   "repository": {
     "type": "git",
