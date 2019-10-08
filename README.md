@@ -1,7 +1,15 @@
 # tuntuntutu
 
-页面模块脚手架
+
+### install
 
 ```
-tuntuntutu init <pageName>
+npm i -g tuntuntutu-cli
+```
+
+
+### use
+
+```
+ttp init <pageName>
 ```
